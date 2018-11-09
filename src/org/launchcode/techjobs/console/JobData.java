@@ -43,7 +43,7 @@ public class JobData {
             }
         }
 
-        return values;
+            return values;
     }
 
     public static ArrayList<HashMap<String, String>> findAll() {
@@ -76,12 +76,36 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            if (aValue.toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(row);
             }
         }
 
         return jobs;
+    }
+    /**
+     * enable a search that looks for the search term in all of the columns.
+     */
+    public static ArrayList<HashMap<String,String>>findByValue(String searchTerm){
+        loadData();
+
+        ArrayList<HashMap<String, String>> machedSearchTerm = new ArrayList<>();
+
+        for( HashMap<String,String> row : allJobs){
+            boolean termFound = false;
+            for(String column : row.keySet()){
+                String aValue = row.get(column);
+                if(aValue.toLowerCase().contains(searchTerm.toLowerCase())){
+                   termFound = true;
+                   break;
+                }
+            }
+            if(termFound){
+                machedSearchTerm.add(row);
+            }
+        }
+
+    return machedSearchTerm;
     }
 
     /**
